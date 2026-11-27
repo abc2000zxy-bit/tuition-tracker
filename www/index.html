@@ -50,11 +50,18 @@
     .fee-due { background: #fef3c7; color: #92400e; }
     .fee-overdue { background: #fee2e2; color: #991b1b; }
     .remind-btn { padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid #86efac; background: #f0fdf4; color: #166534; cursor: pointer; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #e5e7eb; }
-    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; font-weight: 700; background: #f3f4f6; border: 1px solid #e5e7eb; cursor: pointer; }
+    
+    /* Calendar styles */
+    .cal-wrap { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e5e7eb; }
+    .cal-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
+    .cal-header-day { text-align: center; font-size: 11px; font-weight: 700; color: #6b7280; padding: 2px 0; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; font-weight: 700; background: #f3f4f6; border: 1px solid #e5e7eb; cursor: pointer; min-height: 32px; }
+    .cal-day.empty { background: transparent; border: none; cursor: default; }
     .cal-day.day-p { background: #16a34a; color: white; border-color: #15803d; }
     .cal-day.day-a { background: #dc2626; color: white; border-color: #b91c1c; }
     .cal-hint { font-size: 11px; color: #6b7280; margin-top: 6px; text-align: right; }
+    
     .progress-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #d1d5db; }
     .score-badge { font-size: 12px; font-weight: 600; color: #374151; }
     .progress-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
@@ -246,8 +253,9 @@ const uiText = {
     confirmRestoreBtn: "♻️ Restore Now",
     statsDaily: (p, t) => `Present: ${p} / ${t}`,
     statsMonthly: (avg) => `Avg Attendance: ${avg}%`,
-    statsFeeDue: (cnt, sum) => `Due: \( {cnt} (₹ \){sum})`,
-    batches: { All: "All Batches", FeeDue: "⚠ Fee Due", Morning: "Morning", Evening: "Evening", "Class 10": "Class 10" }
+    statsFeeDue: (cnt, sum) => `Due: ${cnt} (₹${sum})`,
+    batches: { All: "All Batches", FeeDue: "⚠ Fee Due", Morning: "Morning", Evening: "Evening", "Class 10": "Class 10" },
+    days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   hi: {
     title: "ट्यूशन ट्रैकर",
@@ -289,8 +297,9 @@ const uiText = {
     confirmRestoreBtn: "♻️ रिस्टोर करें",
     statsDaily: (p, t) => `उपस्थित: ${p} / ${t}`,
     statsMonthly: (avg) => `औसत उपस्थिति: ${avg}%`,
-    statsFeeDue: (cnt, sum) => `बाकी: \( {cnt} (₹ \){sum})`,
-    batches: { All: "सभी बैच", FeeDue: "⚠ बाकी फीस", Morning: "सुबह का बैच", Evening: "शाम का बैच", "Class 10": "कक्षा 10" }
+    statsFeeDue: (cnt, sum) => `बाकी: ${cnt} (₹${sum})`,
+    batches: { All: "सभी बैच", FeeDue: "⚠ बाकी फीस", Morning: "सुबह का बैच", Evening: "शाम का बैच", "Class 10": "कक्षा 10" },
+    days: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"]
   },
   pa: {
     title: "ਟਿਊਸ਼ਨ ਟਰੈਕਰ",
@@ -332,8 +341,9 @@ const uiText = {
     confirmRestoreBtn: "♻️ ਰੀਸਟੋਰ ਕਰੋ",
     statsDaily: (p, t) => `ਹਾਜ਼ਰ: ${p} / ${t}`,
     statsMonthly: (avg) => `ਔਸਤ ਹਾਜ਼ਰੀ: ${avg}%`,
-    statsFeeDue: (cnt, sum) => `ਬਾਕੀ: \( {cnt} (₹ \){sum})`,
-    batches: { All: "ਸਾਰੇ ਬੈਚ", FeeDue: "⚠ ਬਾਕੀ ਫੀਸ", Morning: "ਸਵੇਰ ਦਾ ਬੈਚ", Evening: "ਸ਼ਾਮ ਦਾ ਬੈਚ", "Class 10": "ਕਲਾਸ 10" }
+    statsFeeDue: (cnt, sum) => `ਬਾਕੀ: ${cnt} (₹${sum})`,
+    batches: { All: "ਸਾਰੇ ਬੈਚ", FeeDue: "⚠ ਬਾਕੀ ਫੀਸ", Morning: "ਸਵੇਰ ਦਾ ਬੈਚ", Evening: "ਸ਼ਾਮ ਦਾ ਬੈਚ", "Class 10": "ਕਲਾਸ 10" },
+    days: ["ਐਤ", "ਸੋਮ", "ਮੰਗਲ", "ਬੁੱਧ", "ਵੀਰ", "ਸ਼ੁੱਕਰ", "ਸ਼ਨਿ"]
   }
 };
 
@@ -784,10 +794,12 @@ function render() {
     return;
   }
 
+  // Calculate first day of month (0 = Sunday)
   const parts = ym.split("-");
   const year = parseInt(parts[0], 10);
   const month = parseInt(parts[1], 10);
   const daysInMonth = new Date(year, month, 0).getDate();
+  const firstDayOfWeek = new Date(year, month - 1, 1).getDay(); // 0=Sun ... 6=Sat
 
   document.getElementById("studentList").innerHTML = filtered.map(function(st) {
     const status = st.attendance[d] || "";
@@ -826,7 +838,20 @@ function render() {
     }
 
     if (viewMode === "monthly") {
+      // Day headers (Sun Mon Tue ...)
+      let headerHtml = '<div class="cal-header">';
+      for (let i = 0; i < 7; i++) {
+        headerHtml += '<div class="cal-header-day">' + t.days[i] + '</div>';
+      }
+      headerHtml += '</div>';
+
+      // Calendar cells: empty padding + days
       let boxes = "";
+      // Empty cells before the 1st of the month
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        boxes += '<div class="cal-day empty"></div>';
+      }
+      // Actual days
       for (let day = 1; day <= daysInMonth; day++) {
         const dayStr = String(day).padStart(2, "0");
         const fullDate = ym + "-" + dayStr;
@@ -834,7 +859,13 @@ function render() {
         const cls = ds === "P" ? "day-p" : (ds === "A" ? "day-a" : "");
         boxes += '<div class="cal-day ' + cls + '" onclick="cycleDayStatus(' + st.id + ', \'' + fullDate + '\')">' + day + (ds ? "<br>" + ds : "") + '</div>';
       }
-      calendarSection = '<div class="cal-grid">' + boxes + '</div><div class="cal-hint">' + t.tapHint + '</div>';
+
+      calendarSection =
+        '<div class="cal-wrap">' +
+          headerHtml +
+          '<div class="cal-grid">' + boxes + '</div>' +
+          '<div class="cal-hint">' + t.tapHint + '</div>' +
+        '</div>';
     }
 
     return (
