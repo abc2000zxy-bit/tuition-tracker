@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tuition Tracker</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { margin: 0; background: #f3f4f6; color: #1f2937; padding-bottom: 92px; }
+    header { background: #1d4ed8; color: white; padding: 14px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    header h1 { margin: 0; font-size: 19px; }
+    header p { margin: 4px 0 0; font-size: 13px; opacity: 0.92; }
+    .lang-bar { display: flex; background: rgba(255,255,255,0.18); border-radius: 8px; padding: 2px; }
+    .lang-btn { border: none; background: transparent; color: white; padding: 5px 8px; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; }
+    .lang-btn.active { background: white; color: #1d4ed8; }
+
+    /* Mode Switcher: Daily vs Monthly */
+    .mode-bar { display: flex; background: #e0e7ff; padding: 4px; margin: 10px 14px 0; border-radius: 10px; }
+    .mode-btn { flex: 1; padding: 8px; border: none; background: transparent; font-weight: 700; font-size: 14px; color: #1e40af; border-radius: 8px; cursor: pointer; }
+    .mode-btn.active { background: #1d4ed8; color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+
+    .controls-bar { background: white; padding: 10px 14px; margin-top: 10px; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; display: flex; flex-direction: column; gap: 10px; }
+    .date-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .date-row input[type="date"], .date-row input[type="month"] { padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-weight: 600; color: #1f2937; background: white; }
+    .stats-pill { font-size: 13px; font-weight: 700; color: #1d4ed8; background: #eff6ff; padding: 6px 10px; border-radius: 8px; }
+
+    .tabs { display: flex; gap: 8px; overflow-x: auto; }
+    .tab { padding: 7px 13px; border-radius: 20px; border: 1px solid #d1d5db; background: #f9fafb; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+    .tab.active { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+    .tab.fee-tab { border-color: #f59e0b; color: #b45309; background: #fffbeb; }
+    .tab.fee-tab.active { background: #d97706; color: white; border-color: #d97706; }
+
+    /* Prominent Add Student Action Bar */
+    .student-actions-bar { display: flex; gap: 8px; padding: 12px 14px; }
+    .add-student-main-btn { flex: 1; background: #16a34a; color: white; border: none; border-radius: 10px; padding: 11px 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 2px 4px rgba(22,163,74,0.2); display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .manage-del-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 10px; padding: 11px 13px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .manage-del-btn.active { background: #dc2626; color: white; border-color: #dc2626; }
+
+    .list { padding: 0 14px; display: flex; flex-direction: column; gap: 10px; }
+    .card { background: white; padding: 13px 14px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid #9ca3af; }
+    .card.present { border-left-color: #16a34a; background: #f0fdf4; }
+    .card.absent { border-left-color: #dc2626; background: #fef2f2; }
+
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .st-name { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .st-meta { font-size: 12px; color: #4b5563; margin-top: 3px; }
+    .att-btns { display: flex; gap: 6px; align-items: center; }
+    .att-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid #d1d5db; background: white; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .att-btn.p-active { background: #16a34a; color: white; border-color: #16a34a; }
+    .att-btn.a-active { background: #dc2626; color: white; border-color: #dc2626; }
+
+    .del-student-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 7px; padding: 5px 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; }
+    .del-student-btn:active { background: #dc2626; color: white; }
+
+    /* Fee Row */
+    .fee-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; padding: 7px 10px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; }
+    .fee-info { font-size: 12px; font-weight: 600; color: #334155; }
+    .fee-actions { display: flex; gap: 6px; align-items: center; }
+    .fee-badge { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; border: none; cursor: pointer; }
+    .fee-paid { background: #dcfce7; color: #166534; }
+    .fee-due { background: #fef3c7; color: #92400e; }
+    .fee-overdue { background: #fee2e2; color: #991b1b; }
+    .remind-btn { padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid #86efac; background: #dcfce7; color: #166534; cursor: pointer; }
+
+    /* Monthly Calendar Grid inside Card */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #e5e7eb; }
+    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; font-weight: 700; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; cursor: pointer; }
+    .cal-day.day-p { background: #16a34a; color: white; border-color: #15803d; }
+    .cal-day.day-a { background: #dc2626; color: white; border-color: #b91c1c; }
+    .cal-hint { font-size: 11px; color: #6b7280; margin-top: 6px; text-align: right; }
+
+    .progress-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #d1d5db; }
+    .score-badge { font-size: 12px; font-weight: 600; color: #374151; }
+    .progress-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .mini-btn { padding: 5px 9px; border-radius: 7px; border: 1px solid #cbd5e1; background: #f8fafc; font-size: 12px; font-weight: 600; color: #1e293b; cursor: pointer; }
+    .wa-mini { background: #dcfce7; border-color: #86efac; color: #166534; }
+    .empty-msg { text-align: center; padding: 28px 16px; background: white; border-radius: 12px; color: #4b5563; font-weight: 600; font-size: 14px; }
+
+    /* Bottom Bar with Backup & Restore */
+    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 12px; border-top: 1px solid #e5e7eb; display: flex; gap: 7px; box-shadow: 0 -2px 8px rgba(0,0,0,0.08); }
+    .backup-btn { padding: 11px 10px; border-radius: 10px; border: 1px solid #1d4ed8; color: #1d4ed8; background: #eff6ff; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .restore-btn { padding: 11px 10px; border-radius: 10px; border: 1px solid #7c3aed; color: #6d28d9; background: #f5f3ff; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .wa-btn { flex: 1; padding: 11px 10px; border-radius: 10px; border: none; background: #25D366; color: white; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 30; align-items: center; justify-content: center; padding: 16px; }
+    .modal-bg.open { display: flex; }
+    .modal { background: white; width: 100%; max-width: 390px; border-radius: 14px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+    .modal h3 { margin: 0 0 10px; font-size: 17px; }
+    .modal label { display: block; font-size: 12px; font-weight: 700; color: #4b5563; margin: 8px 0 4px; }
+    .modal input, .modal select, .modal textarea { width: 100%; padding: 9px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; background: white; font-family: inherit; }
+    .modal textarea { min-height: 110px; font-family: monospace; font-size: 12px; }
+    .modal-btns { display: flex; gap: 8px; margin-top: 14px; }
+    .modal-btns button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <h1 id="appTitle">📚 Tuition Tracker</h1>
+    <div class="lang-bar">
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
+      <button class="lang-btn" id="btn-pa" onclick="setLang('pa')">ਪੰਜਾਬੀ</button>
+    </div>
+  </div>
+  <p id="appSub">Attendance, Fees, Marks, Backup &amp; Restore</p>
+</header>
+
+<!-- Daily / Monthly Toggle -->
+<div class="mode-bar">
+  <button class="mode-btn active" id="mode-daily" onclick="setViewMode('daily')">📅 Daily Attendance</button>
+  <button class="mode-btn" id="mode-monthly" onclick="setViewMode('monthly')">🗓️ Monthly Register</button>
+</div>
+
+<div class="controls-bar">
+  <div class="date-row">
+    <input type="date" id="attDate" onchange="render()" />
+    <input type="month" id="attMonth" style="display:none;" onchange="render()" />
+    <div class="stats-pill" id="dayStats">Present: 0 / 0</div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<!-- Add Student & Delete Mode Controls -->
+<div class="student-actions-bar">
+  <button class="add-student-main-btn" id="openAddBtn" onclick="openAddModal()">➕ Add Student</button>
