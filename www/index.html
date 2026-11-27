@@ -1,59 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tuition Tracker</title>
   <style>
     * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body { margin: 0; background: #f3f4f6; color: #1f2937; padding-bottom: 92px; }
-    header { background: #1d4ed8; color: white; padding: 14px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    body { margin: 0; background: #f3f4f6; color: #1f2937; padding-bottom: 80px; }
+    header { background: #4d2d8d; color: white; padding: 14px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .header-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    header h1 { margin: 0; font-size: 19px; }
-    header p { margin: 4px 0 0; font-size: 13px; opacity: 0.92; }
+    h1 { margin: 0; font-size: 19px; }
+    .header-p { margin: 4px 0 0; font-size: 13px; opacity: 0.92; }
     .lang-bar { display: flex; background: rgba(255,255,255,0.18); border-radius: 8px; padding: 2px; }
     .lang-btn { border: none; background: transparent; color: white; padding: 5px 8px; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; }
-    .lang-btn.active { background: white; color: #1d4ed8; }
-
-    /* Mode Switcher: Daily vs Monthly */
-    .mode-bar { display: flex; background: #e0e7ff; padding: 4px; margin: 10px 14px 0; border-radius: 10px; }
-    .mode-btn { flex: 1; padding: 8px; border: none; background: transparent; font-weight: 700; font-size: 14px; color: #1e40af; border-radius: 8px; cursor: pointer; }
-    .mode-btn.active { background: #1d4ed8; color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
-
+    .lang-btn.active { background: white; color: #4d2d8d; }
+    .mode-bar { display: flex; background: #e5e7eb; padding: 4px; margin: 10px 14px 0; border-radius: 10px; }
+    .mode-btn { flex: 1; padding: 8px; border: none; background: transparent; font-weight: 700; font-size: 13px; color: #4d2d8d; border-radius: 8px; cursor: pointer; }
+    .mode-btn.active { background: #4d2d8d; color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
     .controls-bar { background: white; padding: 10px 14px; margin-top: 10px; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; display: flex; flex-direction: column; gap: 10px; }
     .date-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .date-row input[type="date"], .date-row input[type="month"] { padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-weight: 600; color: #1f2937; background: white; }
-    .stats-pill { font-size: 13px; font-weight: 700; color: #1d4ed8; background: #eff6ff; padding: 6px 10px; border-radius: 8px; }
-
+    .stats-pill { font-size: 13px; font-weight: 700; color: #4d2d8d; background: #f3e8ff; padding: 6px 10px; border-radius: 8px; }
     .tabs { display: flex; gap: 8px; overflow-x: auto; }
     .tab { padding: 7px 13px; border-radius: 20px; border: 1px solid #d1d5db; background: #f9fafb; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; }
-    .tab.active { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+    .tab.active { background: #4d2d8d; color: white; border-color: #4d2d8d; }
     .tab.fee-tab { border-color: #f59e0b; color: #b45309; background: #fffbeb; }
-    .tab.fee-tab.active { background: #d97706; color: white; border-color: #d97706; }
-
-    /* Prominent Add Student Action Bar */
+    .tab.fee-tab.active { background: #f59e0b; color: white; border-color: #b45309; }
     .student-actions-bar { display: flex; gap: 8px; padding: 12px 14px; }
-    .add-student-main-btn { flex: 1; background: #16a34a; color: white; border: none; border-radius: 10px; padding: 11px 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 2px 4px rgba(22,163,74,0.2); display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .manage-del-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 10px; padding: 11px 13px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .add-student-main-btn { flex: 1; background: #16a34a; color: white; border: none; border-radius: 10px; padding: 11px 14px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(22,163,74,0.2); display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .manage-del-btn { background: #fef2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 10px; padding: 11px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
     .manage-del-btn.active { background: #dc2626; color: white; border-color: #dc2626; }
-
     .list { padding: 0 14px; display: flex; flex-direction: column; gap: 10px; }
-    .card { background: white; padding: 13px 14px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid #9ca3af; }
+    .card { background: white; padding: 13px 14px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid #c4b5fd; }
     .card.present { border-left-color: #16a34a; background: #f0fdf4; }
     .card.absent { border-left-color: #dc2626; background: #fef2f2; }
-
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-    .st-name { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .st-meta { font-size: 12px; color: #4b5563; margin-top: 3px; }
+    .st-name { font-size: 16px; font-weight: 700; }
+    .st-meta { font-size: 12px; color: #6b7280; margin-top: 3px; }
     .att-btns { display: flex; gap: 6px; align-items: center; }
     .att-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid #d1d5db; background: white; font-weight: 700; font-size: 13px; cursor: pointer; }
     .att-btn.p-active { background: #16a34a; color: white; border-color: #16a34a; }
     .att-btn.a-active { background: #dc2626; color: white; border-color: #dc2626; }
-
-    .del-student-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 7px; padding: 5px 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; }
-    .del-student-btn:active { background: #dc2626; color: white; }
-
-    /* Fee Row */
+    .del-student-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 7px; padding: 5px 9px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .fee-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; padding: 7px 10px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; }
     .fee-info { font-size: 12px; font-weight: 600; color: #334155; }
     .fee-actions { display: flex; gap: 6px; align-items: center; }
@@ -61,68 +49,826 @@
     .fee-paid { background: #dcfce7; color: #166534; }
     .fee-due { background: #fef3c7; color: #92400e; }
     .fee-overdue { background: #fee2e2; color: #991b1b; }
-    .remind-btn { padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid #86efac; background: #dcfce7; color: #166534; cursor: pointer; }
-
-    /* Monthly Calendar Grid inside Card */
+    .remind-btn { padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid #86efac; background: #f0fdf4; color: #166534; cursor: pointer; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #e5e7eb; }
-    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; font-weight: 700; background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; cursor: pointer; }
+    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; font-weight: 700; background: #f3f4f6; border: 1px solid #e5e7eb; cursor: pointer; }
     .cal-day.day-p { background: #16a34a; color: white; border-color: #15803d; }
     .cal-day.day-a { background: #dc2626; color: white; border-color: #b91c1c; }
     .cal-hint { font-size: 11px; color: #6b7280; margin-top: 6px; text-align: right; }
-
     .progress-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #d1d5db; }
     .score-badge { font-size: 12px; font-weight: 600; color: #374151; }
     .progress-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
-    .mini-btn { padding: 5px 9px; border-radius: 7px; border: 1px solid #cbd5e1; background: #f8fafc; font-size: 12px; font-weight: 600; color: #1e293b; cursor: pointer; }
+    .mini-btn { padding: 5px 9px; border-radius: 7px; border: 1px solid #c4b5fd; background: #f5f3ff; font-size: 12px; font-weight: 600; color: #5b21b6; cursor: pointer; }
     .wa-mini { background: #dcfce7; border-color: #86efac; color: #166534; }
-    .empty-msg { text-align: center; padding: 28px 16px; background: white; border-radius: 12px; color: #4b5563; font-weight: 600; font-size: 14px; }
-
-    /* Bottom Bar with Backup & Restore */
-    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 12px; border-top: 1px solid #e5e7eb; display: flex; gap: 7px; box-shadow: 0 -2px 8px rgba(0,0,0,0.08); }
-    .backup-btn { padding: 11px 10px; border-radius: 10px; border: 1px solid #1d4ed8; color: #1d4ed8; background: #eff6ff; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
-    .restore-btn { padding: 11px 10px; border-radius: 10px; border: 1px solid #7c3aed; color: #6d28d9; background: #f5f3ff; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
-    .wa-btn { flex: 1; padding: 11px 10px; border-radius: 10px; border: none; background: #25D366; color: white; font-size: 14px; font-weight: 700; cursor: pointer; }
-
+    .empty-msg { text-align: center; padding: 28px 16px; background: white; border-radius: 12px; color: #6b7280; font-weight: 600; font-size: 14px; }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 12px; border-top: 1px solid #e5e7eb; display: flex; gap: 7px; box-shadow: 0 -2px 8px rgba(0,0,0,0.08); z-index: 20; }
+    .backup-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #d4d4d8; color: #4d2d8d; background: #f4f4f5; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .restore-btn { padding: 10px 13px; border-radius: 10px; border: 1px solid #7c3aed; color: #6d28d9; background: #f5f3ff; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .wa-btn { flex: 1; padding: 10px 13px; border-radius: 10px; border: none; background: #25d366; color: white; font-size: 14px; font-weight: 700; cursor: pointer; }
     .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 30; align-items: center; justify-content: center; padding: 16px; }
     .modal-bg.open { display: flex; }
     .modal { background: white; width: 100%; max-width: 390px; border-radius: 14px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-    .modal h3 { margin: 0 0 10px; font-size: 17px; }
-    .modal label { display: block; font-size: 12px; font-weight: 700; color: #4b5563; margin: 8px 0 4px; }
-    .modal input, .modal select, .modal textarea { width: 100%; padding: 9px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; background: white; font-family: inherit; }
+    .modal h3 { margin: 0 0 10px; font-size: 17px; font-weight: 700; color: #4d2d8d; }
+    .modal label { display: block; font-size: 12px; font-weight: 600; color: #4b5563; margin: 8px 0 4px; }
+    .modal input, .modal select, .modal textarea { width: 100%; padding: 9px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit; }
     .modal textarea { min-height: 110px; font-family: monospace; font-size: 12px; }
     .modal-btns { display: flex; gap: 8px; margin-top: 14px; }
     .modal-btns button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
   </style>
 </head>
 <body>
+  <header>
+    <div class="header-top">
+      <h1 id="appTitle">Tuition Tracker</h1>
+      <div class="lang-bar">
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिं</button>
+        <button class="lang-btn" id="btn-pa" onclick="setLang('pa')">ਪੰ</button>
+      </div>
+    </div>
+    <p class="header-p" id="appSub">Attendance, Fees, Marks, Backup & Restore</p>
+  </header>
 
-<header>
-  <div class="header-top">
-    <h1 id="appTitle">📚 Tuition Tracker</h1>
-    <div class="lang-bar">
-      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
-      <button class="lang-btn" id="btn-pa" onclick="setLang('pa')">ਪੰਜਾਬੀ</button>
+  <div class="mode-bar">
+    <button class="mode-btn active" id="mode-daily" onclick="setViewMode('daily')">Daily Attendance</button>
+    <button class="mode-btn" id="mode-monthly" onclick="setViewMode('monthly')">Monthly Register</button>
+  </div>
+
+  <div class="controls-bar">
+    <div class="date-row">
+      <input type="date" id="attDate" onchange="render()">
+      <input type="month" id="attMonth" style="display:none" onchange="render()">
+      <div class="stats-pill" id="dayStats">Present: 0 / 0</div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <div class="student-actions-bar">
+    <button class="add-student-main-btn" id="openAddBtn" onclick="openAddModal()">+ Add Student</button>
+    <button class="manage-del-btn" id="toggleDelModeBtn" onclick="toggleDeleteMode()">🗑 Delete Students</button>
+  </div>
+
+  <div class="list" id="studentList"></div>
+
+  <div class="bottom-bar">
+    <button class="backup-btn" id="backupBtn" onclick="openBackupModal()">Backup</button>
+    <button class="restore-btn" id="restoreBtn" onclick="openRestoreModal()">Restore</button>
+    <button class="wa-btn" onclick="sendSummary()"><span id="waLabel">Share Summary</span></button>
+  </div>
+
+  <!-- Backup Modal -->
+  <div class="modal-bg" id="backupModal">
+    <div class="modal">
+      <h3 id="bkModalTitle">Backup Tuition Data</h3>
+      <p style="font-size:12px;color:#6b7280;margin:0 0 8px">Copy this backup code or send it to your WhatsApp so you never lose student data.</p>
+      <textarea id="backupOutput" readonly></textarea>
+      <div class="modal-btns">
+        <button style="background:#e5e7eb;color:#1f2937" onclick="closeBackupModal()">Close</button>
+        <button style="background:#4d2d8d;color:white" onclick="copyBackupText()">Copy Code</button>
+        <button style="background:#25d366;color:white" onclick="sendBackupWhatsApp()">WhatsApp</button>
+      </div>
     </div>
   </div>
-  <p id="appSub">Attendance, Fees, Marks, Backup &amp; Restore</p>
-</header>
 
-<!-- Daily / Monthly Toggle -->
-<div class="mode-bar">
-  <button class="mode-btn active" id="mode-daily" onclick="setViewMode('daily')">📅 Daily Attendance</button>
-  <button class="mode-btn" id="mode-monthly" onclick="setViewMode('monthly')">🗓️ Monthly Register</button>
-</div>
-
-<div class="controls-bar">
-  <div class="date-row">
-    <input type="date" id="attDate" onchange="render()" />
-    <input type="month" id="attMonth" style="display:none;" onchange="render()" />
-    <div class="stats-pill" id="dayStats">Present: 0 / 0</div>
+  <!-- Restore Modal -->
+  <div class="modal-bg" id="restoreModal">
+    <div class="modal">
+      <h3 id="rsModalTitle">Restore Backup Data</h3>
+      <p style="font-size:12px;color:#6b7280;margin:0 0 8px">Paste your previously saved JSON backup code below to restore all students, attendance & fee records.</p>
+      <textarea id="restoreInput" placeholder="Paste backup code starting with [ ... ]"></textarea>
+      <div class="modal-btns">
+        <button style="background:#e5e7eb;color:#1f2937" onclick="closeRestoreModal()">Cancel</button>
+        <button style="background:#7c3aed;color:white" id="confirmRestoreBtn" onclick="applyRestoreData()">Restore Now</button>
+      </div>
+    </div>
   </div>
-  <div class="tabs" id="tabs"></div>
-</div>
 
-<!-- Add Student & Delete Mode Controls -->
-<div class="student-actions-bar">
-  <button class="add-student-main-btn" id="openAddBtn" onclick="openAddModal()">➕ Add Student</button>
+  <!-- Add Student Modal -->
+  <div class="modal-bg" id="addModal">
+    <div class="modal">
+      <h3 id="addModalTitle">+ Add New Student</h3>
+      <label>Student Full Name *</label>
+      <input type="text" id="newStName" placeholder="e.g. Gurpreet Singh">
+      <label>Batch / Class</label>
+      <select id="newStBatch">
+        <option value="Morning">Morning</option>
+        <option value="Evening">Evening</option>
+        <option value="Class 10">Class 10</option>
+      </select>
+      <label>Monthly Fee (₹)</label>
+      <input type="number" id="newStFee" value="1200" placeholder="e.g. 1500">
+      <label>Fee Due Date</label>
+      <input type="date" id="newStDue">
+      <div class="modal-btns">
+        <button style="background:#e5e7eb;color:#1f2937" id="cancelAddBtn" onclick="closeAddModal()">Cancel</button>
+        <button style="background:#16a34a;color:white" id="confirmAddBtn" onclick="saveNewStudent()">Add Student</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Student -->
+  <div class="modal-bg" id="deleteModal">
+    <div class="modal">
+      <h3 id="delModalTitle" style="color:#b91c1c">Delete Student?</h3>
+      <p id="delModalText" style="font-size:14px;color:#374151;margin:8px 0 14px">Are you sure?</p>
+      <div class="modal-btns">
+        <button style="background:#e5e7eb;color:#1f2937" id="cancelDelBtn" onclick="closeDeleteModal()">Cancel</button>
+        <button style="background:#dc2626;color:white" id="confirmDelBtn" onclick="confirmDeleteStudent()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Progress & Fee Modal -->
+  <div class="modal-bg" id="scoreModal">
+    <div class="modal">
+      <h3 id="modalTitle">Update Progress & Fee</h3>
+      <label>Monthly Fee (₹)</label>
+      <input type="number" id="mFeeAmt" placeholder="e.g. 1500">
+      <label>Fee Due Date</label>
+      <input type="date" id="mFeeDue">
+      <label>Fee Status</label>
+      <select id="mFeeStatus">
+        <option value="Due">Due / Pending</option>
+        <option value="Paid">Paid ✅</option>
+      </select>
+      <label>Last Test Subject / Topic</label>
+      <input type="text" id="mSubject" placeholder="e.g. Maths Ch-4 Test">
+      <label>Marks Scored (e.g. 18/20)</label>
+      <input type="text" id="mMarks" placeholder="e.g. 18/20">
+      <label>Teacher Remark</label>
+      <input type="text" id="mRemark" placeholder="e.g. Good speed, revise formulas">
+      <div class="modal-btns">
+        <button style="background:#e5e7eb;color:#1f2937" onclick="closeModal()">Cancel</button>
+        <button style="background:#4d2d8d;color:white" onclick="saveModal()">Save</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const uiText = {
+  en: {
+    title: "Tuition Tracker",
+    sub: "Attendance, Fees, Marks, Backup & Restore",
+    dailyMode: "Daily Attendance",
+    monthlyMode: "Monthly Register",
+    openAddBtn: "+ Add Student",
+    delModeBtn: "🗑 Delete Students",
+    delModeDone: "✓ Done Deleting",
+    delBtnCard: "🗑 Delete",
+    addModalTitle: "+ Add New Student",
+    confirmAddBtn: "+ Add Student",
+    delModalTitle: "🗑 Delete Student?",
+    delModalMsg: (name) => `Delete "${name}" and all their attendance and fee records?`,
+    confirmDelBtn: "🗑 Delete",
+    cancel: "Cancel",
+    present: "P",
+    absent: "A",
+    monthLabel: "This Month",
+    tapHint: "Tap any date box to toggle P → A → clear",
+    feeDueLbl: "Fee Due",
+    paid: "Paid ✅",
+    due: "Due",
+    overdue: "Overdue ⚠",
+    remindBtn: "🔔 Remind",
+    emptyFee: "✅ All students have paid their fees!",
+    emptyList: "No students yet. Tap \"+ Add Student\" above.",
+    lastTest: "Test",
+    noTest: "No test logged",
+    updateBtn: "📝 Edit / Fee",
+    parentWa: "Parent Report",
+    dailyWa: "Daily Summary",
+    monthlyWa: "Monthly Summary",
+    feeListWa: "Pending Fee List",
+    backup: "📦 Backup",
+    restore: "♻️ Restore",
+    bkModalTitle: "📦 Backup Tuition Data",
+    rsModalTitle: "♻️ Restore Backup Data",
+    confirmRestoreBtn: "♻️ Restore Now",
+    statsDaily: (p, t) => `Present: ${p} / ${t}`,
+    statsMonthly: (avg) => `Avg Attendance: ${avg}%`,
+    statsFeeDue: (cnt, sum) => `Due: \( {cnt} (₹ \){sum})`,
+    batches: { All: "All Batches", FeeDue: "⚠ Fee Due", Morning: "Morning", Evening: "Evening", "Class 10": "Class 10" }
+  },
+  hi: {
+    title: "ट्यूशन ट्रैकर",
+    sub: "उपस्थिति, फीस, अंक, बैकअप और रिस्टोर",
+    dailyMode: "दैनिक उपस्थिति",
+    monthlyMode: "मासिक रजिस्टर",
+    openAddBtn: "+ छात्र जोड़ें",
+    delModeBtn: "🗑 छात्र हटाएं",
+    delModeDone: "✓ हो गया",
+    delBtnCard: "🗑 हटाएं",
+    addModalTitle: "+ नया छात्र जोड़ें",
+    confirmAddBtn: "+ छात्र जोड़ें",
+    delModalTitle: "🗑 छात्र हटाएं?",
+    delModalMsg: (name) => `"${name}" और उसके सारे रिकॉर्ड हटाना चाहते हैं?`,
+    confirmDelBtn: "🗑 हटाएं",
+    cancel: "रद्द करें",
+    present: "उपस्थित",
+    absent: "अनुपस्थित",
+    monthLabel: "इस महीने",
+    tapHint: "किसी भी तारीख पर टैप करें P / A बदलने के लिए",
+    feeDueLbl: "फीस देय",
+    paid: "जमा ✅",
+    due: "बाकी",
+    overdue: "समय पार ⚠",
+    remindBtn: "🔔 याद दिलाएं",
+    emptyFee: "✅ सभी छात्रों की फीस जमा हो चुकी है!",
+    emptyList: "कोई छात्र नहीं है। ऊपर \"+ छात्र जोड़ें\" दबाएं।",
+    lastTest: "टेस्ट",
+    noTest: "कोई टेस्ट नहीं",
+    updateBtn: "📝 फीस / नंबर",
+    parentWa: "रिपोर्ट भेजें",
+    dailyWa: "आज की उपस्थिति",
+    monthlyWa: "मासिक रिपोर्ट",
+    feeListWa: "बाकी फीस लिस्ट",
+    backup: "📦 बैकअप",
+    restore: "♻️ रिस्टोर",
+    bkModalTitle: "📦 डेटा बैकअप करें",
+    rsModalTitle: "♻️ बैकअप रिस्टोर करें",
+    confirmRestoreBtn: "♻️ रिस्टोर करें",
+    statsDaily: (p, t) => `उपस्थित: ${p} / ${t}`,
+    statsMonthly: (avg) => `औसत उपस्थिति: ${avg}%`,
+    statsFeeDue: (cnt, sum) => `बाकी: \( {cnt} (₹ \){sum})`,
+    batches: { All: "सभी बैच", FeeDue: "⚠ बाकी फीस", Morning: "सुबह का बैच", Evening: "शाम का बैच", "Class 10": "कक्षा 10" }
+  },
+  pa: {
+    title: "ਟਿਊਸ਼ਨ ਟਰੈਕਰ",
+    sub: "ਹਾਜ਼ਰੀ, ਫੀਸ, ਅੰਕ, ਬੈਕਅੱਪ ਅਤੇ ਰੀਸਟੋਰ",
+    dailyMode: "ਰੋਜ਼ਾਨਾ ਹਾਜ਼ਰੀ",
+    monthlyMode: "ਮਹੀਨਾਵਾਰ ਰਜਿਸਟਰ",
+    openAddBtn: "+ ਵਿਦਿਆਰਥੀ ਜੋੜੋ",
+    delModeBtn: "🗑 ਵਿਦਿਆਰਥੀ ਹਟਾਓ",
+    delModeDone: "✓ ਮੁਕੰਮਲ",
+    delBtnCard: "🗑 ਹਟਾਓ",
+    addModalTitle: "+ ਨਵਾਂ ਵਿਦਿਆਰਥੀ ਜੋੜੋ",
+    confirmAddBtn: "+ ਵਿਦਿਆਰਥੀ ਜੋੜੋ",
+    delModalTitle: "🗑 ਵਿਦਿਆਰਥੀ ਹਟਾਓ?",
+    delModalMsg: (name) => `"${name}" ਅਤੇ ਉਸਦੇ ਸਾਰੇ ਰਿਕਾਰਡ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?`,
+    confirmDelBtn: "🗑 ਹਟਾਓ",
+    cancel: "ਰੱਦ ਕਰੋ",
+    present: "ਹਾਜ਼ਰ",
+    absent: "ਗੈਰ-ਹਾਜ਼ਰ",
+    monthLabel: "ਇਸ ਮਹੀਨੇ",
+    tapHint: "ਕਿਸੇ ਵੀ ਤਾਰੀਖ ਤੇ ਟੈਪ ਕਰੋ P / A ਬਦਲਣ ਲਈ",
+    feeDueLbl: "ਫੀਸ ਬਾਕੀ",
+    paid: "ਜਮ੍ਹਾਂ ✅",
+    due: "ਬਾਕੀ",
+    overdue: "ਸਮਾਂ ਪਾਰ ⚠",
+    remindBtn: "🔔 ਯਾਦ ਦਿਵਾਓ",
+    emptyFee: "✅ ਸਾਰੇ ਵਿਦਿਆਰਥੀਆਂ ਦੀ ਫੀਸ ਜਮ੍ਹਾਂ ਹੋ ਗਈ ਹੈ!",
+    emptyList: "ਕੋਈ ਵਿਦਿਆਰਥੀ ਨਹੀਂ ਹੈ। ਉੱਪਰ \"+ ਵਿਦਿਆਰਥੀ ਜੋੜੋ\" ਦਬਾਓ।",
+    lastTest: "ਟੈਸਟ",
+    noTest: "ਕੋਈ ਟੈਸਟ ਨਹੀਂ",
+    updateBtn: "📝 ਫੀਸ / ਅੰਕ",
+    parentWa: "ਰਿਪੋਰਟ ਭੇਜੋ",
+    dailyWa: "ਅੱਜ ਦੀ ਹਾਜ਼ਰੀ",
+    monthlyWa: "ਮਹੀਨਾਵਾਰ ਰਿਪੋਰਟ",
+    feeListWa: "ਬਾਕੀ ਫੀਸ ਲਿਸਟ",
+    backup: "📦 ਬੈਕਅੱਪ",
+    restore: "♻️ ਰੀਸਟੋਰ",
+    bkModalTitle: "📦 ਡਾਟਾ ਬੈਕਅੱਪ ਕਰੋ",
+    rsModalTitle: "♻️ ਬੈਕਅੱਪ ਰੀਸਟੋਰ ਕਰੋ",
+    confirmRestoreBtn: "♻️ ਰੀਸਟੋਰ ਕਰੋ",
+    statsDaily: (p, t) => `ਹਾਜ਼ਰ: ${p} / ${t}`,
+    statsMonthly: (avg) => `ਔਸਤ ਹਾਜ਼ਰੀ: ${avg}%`,
+    statsFeeDue: (cnt, sum) => `ਬਾਕੀ: \( {cnt} (₹ \){sum})`,
+    batches: { All: "ਸਾਰੇ ਬੈਚ", FeeDue: "⚠ ਬਾਕੀ ਫੀਸ", Morning: "ਸਵੇਰ ਦਾ ਬੈਚ", Evening: "ਸ਼ਾਮ ਦਾ ਬੈਚ", "Class 10": "ਕਲਾਸ 10" }
+  }
+};
+
+const todayISO = new Date().toISOString().split("T")[0];
+const currentMonthISO = todayISO.slice(0, 7);
+
+const defaultStudents = [
+  {
+    id: 1,
+    name: "Aarav Sharma",
+    batch: "Class 10",
+    attendance: { [todayISO]: "P" },
+    feeAmt: "1500",
+    feeDue: currentMonthISO + "-16",
+    feeStatus: "Paid",
+    subject: "Maths Algebra",
+    marks: "18/20",
+    remark: "Very good accuracy"
+  },
+  {
+    id: 2,
+    name: "Simran Kaur",
+    batch: "Morning",
+    attendance: { [todayISO]: "P" },
+    feeAmt: "1200",
+    feeDue: currentMonthISO + "-05",
+    feeStatus: "Due",
+    subject: "Science Ch-2",
+    marks: "19/20",
+    remark: "Excellent concepts"
+  },
+  {
+    id: 3,
+    name: "Rohan Verma",
+    batch: "Evening",
+    attendance: { [todayISO]: "A" },
+    feeAmt: "1200",
+    feeDue: currentMonthISO + "-28",
+    feeStatus: "Due",
+    subject: "English Grammar",
+    marks: "14/20",
+    remark: "Needs practice in tenses"
+  }
+];
+
+const batchKeys = ["All", "FeeDue", "Morning", "Evening", "Class 10"];
+let lang = localStorage.getItem("tuitionLang") || "en";
+let viewMode = "daily";
+let currentBatch = "All";
+let deleteMode = false;
+let editingId = null;
+let deletingId = null;
+let students = JSON.parse(localStorage.getItem("tuition_students_v6")) || defaultStudents;
+
+const dateInput = document.getElementById("attDate");
+const monthInput = document.getElementById("attMonth");
+dateInput.value = todayISO;
+monthInput.value = currentMonthISO;
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem("tuitionLang", lang);
+  render();
+}
+
+function setViewMode(mode) {
+  viewMode = mode;
+  document.getElementById("mode-daily").classList.toggle("active", mode === "daily");
+  document.getElementById("mode-monthly").classList.toggle("active", mode === "monthly");
+  dateInput.style.display = mode === "daily" ? "block" : "none";
+  monthInput.style.display = mode === "monthly" ? "block" : "none";
+  render();
+}
+
+function toggleDeleteMode() {
+  deleteMode = !deleteMode;
+  render();
+}
+
+function save() {
+  localStorage.setItem("tuition_students_v6", JSON.stringify(students));
+  render();
+}
+
+/* ===== Backup & Restore ===== */
+function openBackupModal() {
+  document.getElementById("bkModalTitle").innerText = uiText[lang].bkModalTitle;
+  document.getElementById("backupOutput").value = JSON.stringify(students, null, 2);
+  document.getElementById("backupModal").classList.add("open");
+}
+
+function closeBackupModal() {
+  document.getElementById("backupModal").classList.remove("open");
+}
+
+function copyBackupText() {
+  const box = document.getElementById("backupOutput");
+  box.select();
+  navigator.clipboard.writeText(box.value).then(function() {
+    alert("Backup JSON copied! Paste it in WhatsApp or Notes to save.");
+  });
+}
+
+function sendBackupWhatsApp() {
+  const data = JSON.stringify(students);
+  const msg = "*Tuition Tracker Backup (" + todayISO + ")*\n\n" + data;
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+function openRestoreModal() {
+  document.getElementById("rsModalTitle").innerText = uiText[lang].rsModalTitle;
+  document.getElementById("confirmRestoreBtn").innerText = uiText[lang].confirmRestoreBtn;
+  document.getElementById("restoreInput").value = "";
+  document.getElementById("restoreModal").classList.add("open");
+}
+
+function closeRestoreModal() {
+  document.getElementById("restoreModal").classList.remove("open");
+}
+
+function applyRestoreData() {
+  let raw = document.getElementById("restoreInput").value.trim();
+  if (!raw) {
+    alert("Please paste the backup JSON text first.");
+    return;
+  }
+  const startIdx = raw.indexOf("[");
+  const endIdx = raw.lastIndexOf("]");
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    raw = raw.slice(startIdx, endIdx + 1);
+  }
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) throw new Error("Invalid format");
+    const valid = parsed.every(function(item) {
+      return item && typeof item.name === "string";
+    });
+    if (!valid) throw new Error("Invalid student entries");
+    students = parsed;
+    closeRestoreModal();
+    save();
+    alert("Successfully restored " + students.length + " student records!");
+  } catch (e) {
+    alert("Invalid backup code. Please copy the full backup JSON starting with [ and ending with ].");
+  }
+}
+
+/* ===== Add Student ===== */
+function openAddModal() {
+  document.getElementById("newStName").value = "";
+  document.getElementById("newStFee").value = "1200";
+  document.getElementById("newStDue").value = todayISO;
+  document.getElementById("addModal").classList.add("open");
+  setTimeout(function() {
+    document.getElementById("newStName").focus();
+  }, 50);
+}
+
+function closeAddModal() {
+  document.getElementById("addModal").classList.remove("open");
+}
+
+function saveNewStudent() {
+  const name = document.getElementById("newStName").value.trim();
+  if (!name) {
+    alert("Please enter the student's name.");
+    return;
+  }
+  const batch = document.getElementById("newStBatch").value;
+  const feeAmt = document.getElementById("newStFee").value.trim() || "1200";
+  const feeDue = document.getElementById("newStDue").value || todayISO;
+  students.unshift({
+    id: Date.now(),
+    name: name,
+    batch: batch,
+    attendance: {},
+    feeAmt: feeAmt,
+    feeDue: feeDue,
+    feeStatus: "Due",
+    subject: "",
+    marks: "",
+    remark: ""
+  });
+  closeAddModal();
+  save();
+}
+
+/* ===== Delete Student ===== */
+function openDeleteModal(id) {
+  const st = students.find(function(s) { return s.id === id; });
+  if (!st) return;
+  deletingId = id;
+  const t = uiText[lang];
+  document.getElementById("delModalTitle").innerText = t.delModalTitle;
+  document.getElementById("delModalText").innerText = t.delModalMsg(st.name);
+  document.getElementById("cancelDelBtn").innerText = t.cancel;
+  document.getElementById("confirmDelBtn").innerText = t.confirmDelBtn;
+  document.getElementById("deleteModal").classList.add("open");
+}
+
+function closeDeleteModal() {
+  document.getElementById("deleteModal").classList.remove("open");
+  deletingId = null;
+}
+
+function confirmDeleteStudent() {
+  if (!deletingId) return;
+  students = students.filter(function(s) { return s.id !== deletingId; });
+  closeDeleteModal();
+  save();
+}
+
+function toggleFeeStatus(id) {
+  students = students.map(function(s) {
+    if (s.id !== id) return s;
+    return Object.assign({}, s, {
+      feeStatus: s.feeStatus === "Paid" ? "Due" : "Paid"
+    });
+  });
+  save();
+}
+
+function sendFeeReminder(id) {
+  const st = students.find(function(s) { return s.id === id; });
+  if (!st) return;
+  let msg = "*Tuition Fee Reminder*\n\n";
+  msg += "Dear Parent,\nThis is a gentle reminder that the tuition fee for *" + st.name + "* (" + st.batch + ") is due.\n\n";
+  msg += "*Amount:* ₹" + (st.feeAmt || "-") + "\n";
+  msg += "*Due Date:* " + (st.feeDue || "Pending") + "\n\n";
+  msg += "Please clear the dues at your earliest convenience. Thank you!";
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+function markAttendance(id, status) {
+  const d = dateInput.value;
+  students = students.map(function(s) {
+    if (s.id !== id) return s;
+    const updated = Object.assign({}, s.attendance);
+    if (updated[d] === status) {
+      delete updated[d];
+    } else {
+      updated[d] = status;
+    }
+    return Object.assign({}, s, { attendance: updated });
+  });
+  save();
+}
+
+function cycleDayStatus(id, dateStr) {
+  const st = students.find(function(s) { return s.id === id; });
+  if (!st) return;
+  const cur = (st.attendance || {})[dateStr];
+  const next = !cur ? "P" : (cur === "P" ? "A" : "");
+  students = students.map(function(s) {
+    if (s.id !== id) return s;
+    const updated = Object.assign({}, s.attendance);
+    if (!next) {
+      delete updated[dateStr];
+    } else {
+      updated[dateStr] = next;
+    }
+    return Object.assign({}, s, { attendance: updated });
+  });
+  save();
+}
+
+function getMonthlyStats(st, ym) {
+  const entries = Object.entries(st.attendance || {}).filter(function(entry) {
+    return entry[0].startsWith(ym);
+  });
+  const total = entries.length;
+  const present = entries.filter(function(entry) { return entry[1] === "P"; }).length;
+  const absent = entries.filter(function(entry) { return entry[1] === "A"; }).length;
+  const pct = total === 0 ? 0 : Math.round((present / total) * 100);
+  return { present: present, absent: absent, total: total, pct: pct };
+}
+
+function openModal(id) {
+  editingId = id;
+  const st = students.find(function(s) { return s.id === id; });
+  if (!st) return;
+  document.getElementById("modalTitle").innerText = st.name;
+  document.getElementById("mFeeAmt").value = st.feeAmt || "";
+  document.getElementById("mFeeDue").value = st.feeDue || todayISO;
+  document.getElementById("mFeeStatus").value = st.feeStatus || "Due";
+  document.getElementById("mSubject").value = st.subject || "";
+  document.getElementById("mMarks").value = st.marks || "";
+  document.getElementById("mRemark").value = st.remark || "";
+  document.getElementById("scoreModal").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("scoreModal").classList.remove("open");
+  editingId = null;
+}
+
+function saveModal() {
+  if (!editingId) return;
+  const feeAmt = document.getElementById("mFeeAmt").value.trim();
+  const feeDue = document.getElementById("mFeeDue").value;
+  const feeStatus = document.getElementById("mFeeStatus").value;
+  const subject = document.getElementById("mSubject").value.trim();
+  const marks = document.getElementById("mMarks").value.trim();
+  const remark = document.getElementById("mRemark").value.trim();
+  students = students.map(function(s) {
+    if (s.id !== editingId) return s;
+    return Object.assign({}, s, {
+      feeAmt: feeAmt,
+      feeDue: feeDue,
+      feeStatus: feeStatus,
+      subject: subject,
+      marks: marks,
+      remark: remark
+    });
+  });
+  closeModal();
+  save();
+}
+
+function sendParentReport(id) {
+  const st = students.find(function(s) { return s.id === id; });
+  if (!st) return;
+  const d = dateInput.value;
+  const ym = viewMode === "monthly" ? monthInput.value : d.slice(0, 7);
+  const todayStatus = st.attendance[d] === "P" ? "Present ✅" : (st.attendance[d] === "A" ? "Absent ❌" : "Not Marked");
+  const mStats = getMonthlyStats(st, ym);
+  let msg = "*Tuition Progress & Fee Report*\n\n";
+  msg += "*Student:* " + st.name + " (" + st.batch + ")\n";
+  if (viewMode === "daily") {
+    msg += "*Date (" + d + "):* " + todayStatus + "\n";
+  }
+  msg += "*Monthly Attendance (" + ym + "):* " + mStats.present + "/" + mStats.total + " days (" + mStats.pct + "%)\n";
+  if (st.feeDue) {
+    const feeText = st.feeStatus === "Paid"
+      ? "Paid ✅ (Due Date: " + st.feeDue + ")"
+      : "Pending ⚠ (₹" + (st.feeAmt || "-") + " | Due Date: " + st.feeDue + ")";
+    msg += "*Fee Status:* " + feeText + "\n";
+  }
+  if (st.marks) {
+    msg += "*Recent Test:* " + (st.subject || "Test") + " - *" + st.marks + "*\n";
+  }
+  if (st.remark) {
+    msg += "*Teacher Note:* " + st.remark + "\n";
+  }
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+function getFilteredStudents() {
+  if (currentBatch === "All") return students;
+  if (currentBatch === "FeeDue") return students.filter(function(s) { return s.feeStatus !== "Paid"; });
+  return students.filter(function(s) { return s.batch === currentBatch; });
+}
+
+function sendSummary() {
+  const filtered = getFilteredStudents();
+  if (filtered.length === 0) return;
+
+  if (currentBatch === "FeeDue") {
+    let msg = "*Pending Tuition Fee List (" + todayISO + ")*\n\n";
+    let totalDue = 0;
+    filtered.forEach(function(st, idx) {
+      const amt = Number(st.feeAmt) || 0;
+      totalDue += amt;
+      msg += (idx + 1) + ". " + st.name + " (" + st.batch + ") - ₹" + amt + " (Due: " + (st.feeDue || "-") + ")\n";
+    });
+    msg += "\n*Total Pending:* ₹" + totalDue;
+    window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+    return;
+  }
+
+  if (viewMode === "daily") {
+    const d = dateInput.value;
+    let msg = "*Daily Tuition Attendance (" + d + ")*\n*Batch:* " + currentBatch + "\n\n";
+    filtered.forEach(function(st, idx) {
+      const status = st.attendance[d] === "P" ? "✅ P" : (st.attendance[d] === "A" ? "❌ A" : "—");
+      msg += (idx + 1) + ". " + st.name + " - " + status + "\n";
+    });
+    window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+  } else {
+    const ym = monthInput.value;
+    let msg = "*Monthly Tuition Summary (" + ym + ")*\n*Batch:* " + currentBatch + "\n\n";
+    filtered.forEach(function(st, idx) {
+      const m = getMonthlyStats(st, ym);
+      const flag = st.feeStatus === "Paid" ? "Fee Paid ✅" : "Fee Due: " + (st.feeDue || "-");
+      msg += (idx + 1) + ". " + st.name + " - " + m.present + "/" + m.total + " (" + m.pct + "%) | " + flag + "\n";
+    });
+    window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+  }
+}
+
+function render() {
+  const t = uiText[lang];
+  const d = dateInput.value;
+  const ym = monthInput.value;
+
+  document.getElementById("appTitle").innerText = t.title;
+  document.getElementById("appSub").innerText = t.sub;
+  document.getElementById("mode-daily").innerText = t.dailyMode;
+  document.getElementById("mode-monthly").innerText = t.monthlyMode;
+  document.getElementById("openAddBtn").innerText = t.openAddBtn;
+  document.getElementById("addModalTitle").innerText = t.addModalTitle;
+  document.getElementById("confirmAddBtn").innerText = t.confirmAddBtn;
+  document.getElementById("cancelAddBtn").innerText = t.cancel;
+
+  const delToggleBtn = document.getElementById("toggleDelModeBtn");
+  delToggleBtn.innerText = deleteMode ? t.delModeDone : t.delModeBtn;
+  delToggleBtn.classList.toggle("active", deleteMode);
+
+  document.getElementById("waLabel").innerText =
+    currentBatch === "FeeDue" ? t.feeListWa : (viewMode === "daily" ? t.dailyWa : t.monthlyWa);
+  document.getElementById("backupBtn").innerText = t.backup;
+  document.getElementById("restoreBtn").innerText = t.restore;
+
+  ["en", "hi", "pa"].forEach(function(l) {
+    document.getElementById("btn-" + l).classList.toggle("active", lang === l);
+  });
+
+  const dueCount = students.filter(function(s) { return s.feeStatus !== "Paid"; }).length;
+
+  document.getElementById("tabs").innerHTML = batchKeys.map(function(b) {
+    const extraCls = b === "FeeDue" ? "fee-tab" : "";
+    const label = b === "FeeDue" ? t.batches[b] + " (" + dueCount + ")" : t.batches[b];
+    const activeCls = currentBatch === b ? "active" : "";
+    return '<button class="tab ' + extraCls + ' ' + activeCls + '" onclick="currentBatch=\'' + b + '\';render()">' + label + '</button>';
+  }).join("");
+
+  const filtered = getFilteredStudents();
+
+  if (currentBatch === "FeeDue") {
+    const totalDueAmt = filtered.reduce(function(acc, st) {
+      return acc + (Number(st.feeAmt) || 0);
+    }, 0);
+    document.getElementById("dayStats").innerText = t.statsFeeDue(filtered.length, totalDueAmt);
+  } else if (viewMode === "daily") {
+    const presentCount = filtered.filter(function(s) { return s.attendance[d] === "P"; }).length;
+    document.getElementById("dayStats").innerText = t.statsDaily(presentCount, filtered.length);
+  } else {
+    const totalPct = filtered.reduce(function(acc, st) {
+      return acc + getMonthlyStats(st, ym).pct;
+    }, 0);
+    const avg = filtered.length ? Math.round(totalPct / filtered.length) : 0;
+    document.getElementById("dayStats").innerText = t.statsMonthly(avg);
+  }
+
+  if (filtered.length === 0) {
+    const msg = currentBatch === "FeeDue" ? t.emptyFee : t.emptyList;
+    document.getElementById("studentList").innerHTML = '<div class="empty-msg">' + msg + '</div>';
+    return;
+  }
+
+  const parts = ym.split("-");
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10);
+  const daysInMonth = new Date(year, month, 0).getDate();
+
+  document.getElementById("studentList").innerHTML = filtered.map(function(st) {
+    const status = st.attendance[d] || "";
+    const mStats = getMonthlyStats(st, ym);
+    const cardClass = viewMode === "daily"
+      ? (status === "P" ? "present" : (status === "A" ? "absent" : ""))
+      : "";
+    const testLine = st.marks
+      ? t.lastTest + ": <b>" + (st.subject ? st.subject + " : " : "") + st.marks + "</b>"
+      : t.noTest;
+
+    const isPaid = st.feeStatus === "Paid";
+    const isOverdue = !isPaid && st.feeDue && st.feeDue < todayISO;
+    const badgeClass = isPaid ? "fee-paid" : (isOverdue ? "fee-overdue" : "fee-due");
+    const badgeLabel = isPaid
+      ? t.paid
+      : (isOverdue ? t.overdue : t.due + (st.feeAmt ? " ₹" + st.feeAmt : ""));
+
+    const remindBtnHtml = !isPaid
+      ? '<button class="remind-btn" onclick="sendFeeReminder(' + st.id + ')">' + t.remindBtn + '</button>'
+      : "";
+
+    let rightControls = "";
+    let calendarSection = "";
+
+    if (deleteMode) {
+      rightControls = '<button class="del-student-btn" onclick="openDeleteModal(' + st.id + ')">' + t.delBtnCard + '</button>';
+    } else if (viewMode === "daily") {
+      rightControls =
+        '<div class="att-btns">' +
+          '<button class="att-btn ' + (status === "P" ? "p-active" : "") + '" onclick="markAttendance(' + st.id + ', \'P\')">' + t.present + '</button>' +
+          '<button class="att-btn ' + (status === "A" ? "a-active" : "") + '" onclick="markAttendance(' + st.id + ', \'A\')">' + t.absent + '</button>' +
+        '</div>';
+    } else {
+      rightControls = '<div class="stats-pill">' + mStats.present + '/' + mStats.total + ' (' + mStats.pct + '%)</div>';
+    }
+
+    if (viewMode === "monthly") {
+      let boxes = "";
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayStr = String(day).padStart(2, "0");
+        const fullDate = ym + "-" + dayStr;
+        const ds = (st.attendance || {})[fullDate] || "";
+        const cls = ds === "P" ? "day-p" : (ds === "A" ? "day-a" : "");
+        boxes += '<div class="cal-day ' + cls + '" onclick="cycleDayStatus(' + st.id + ', \'' + fullDate + '\')">' + day + (ds ? "<br>" + ds : "") + '</div>';
+      }
+      calendarSection = '<div class="cal-grid">' + boxes + '</div><div class="cal-hint">' + t.tapHint + '</div>';
+    }
+
+    return (
+      '<div class="card ' + cardClass + '">' +
+        '<div class="card-top">' +
+          '<div>' +
+            '<div class="st-name">' + st.name + '</div>' +
+            '<div class="st-meta">' + (t.batches[st.batch] || st.batch) + ' • ' + t.monthLabel + ' (' + ym + '): <b>' + mStats.present + 'P / ' + mStats.absent + 'A</b></div>' +
+          '</div>' +
+          rightControls +
+        '</div>' +
+        '<div class="fee-row">' +
+          '<div class="fee-info">' + t.feeDueLbl + ': <b>' + (st.feeDue || "Not set") + '</b></div>' +
+          '<div class="fee-actions">' +
+            remindBtnHtml +
+            '<button class="fee-badge ' + badgeClass + '" onclick="toggleFeeStatus(' + st.id + ')">' + badgeLabel + '</button>' +
+          '</div>' +
+        '</div>' +
+        calendarSection +
+        '<div class="progress-row">' +
+          '<div class="score-badge">' + testLine + '</div>' +
+          '<div class="progress-actions">' +
+            '<button class="mini-btn" onclick="openModal(' + st.id + ')">' + t.updateBtn + '</button>' +
+            '<button class="mini-btn wa-mini" onclick="sendParentReport(' + st.id + ')">' + t.parentWa + '</button>' +
+            (!deleteMode ? '<button class="del-student-btn" onclick="openDeleteModal(' + st.id + ')">' + t.delBtnCard + '</button>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join("");
+}
+
+// Initial render
+render();
+</script>
+</body>
+</html>
